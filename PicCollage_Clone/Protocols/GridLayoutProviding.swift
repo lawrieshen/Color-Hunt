@@ -1,12 +1,12 @@
 import Foundation
 
-// MARK: - CollageLayoutTemplate
+// MARK: - GridTemplate
 
 /// Supported collage grid configurations.
 ///
 /// The raw value equals the number of photo slots the template provides,
 /// which is also the `maxSelectionCount` passed to `PhotosPicker`.
-enum CollageLayoutTemplate: Int, CaseIterable, Identifiable {
+enum GridTemplate: Int, CaseIterable, Identifiable {
     case single = 1
     case sideBySide = 2
     case topPairBottomSingle = 3
@@ -27,13 +27,13 @@ enum CollageLayoutTemplate: Int, CaseIterable, Identifiable {
     }
 }
 
-// MARK: - CollageAspectRatio
+// MARK: - GridAspectRatio
 
 /// Supported canvas aspect ratios for the collage grid.
 ///
 /// The `value` property expresses width ÷ height; `renderSize` gives the
 /// corresponding output dimensions with a 1024pt long side.
-enum CollageAspectRatio: Int, CaseIterable, Identifiable {
+enum GridAspectRatio: Int, CaseIterable, Identifiable {
     case square = 1 // 1:1
     case portrait = 2 // 3:4
     case landscape = 3 // 4:3
@@ -70,10 +70,10 @@ enum CollageAspectRatio: Int, CaseIterable, Identifiable {
     }
 }
 
-// MARK: - CollageLayoutSlot
+// MARK: - GridSlot
 
 /// Describes one cell's position and span within a grid.
-struct CollageLayoutSlot: Identifiable {
+struct GridSlot: Identifiable {
     let id: Int
     let row: Int
     let column: Int
@@ -81,17 +81,17 @@ struct CollageLayoutSlot: Identifiable {
     let rowSpan: Int
 }
 
-// MARK: - CollageLayoutProviding
+// MARK: - GridLayoutProviding
 
-/// Computes the slot geometry for a given ``CollageLayoutTemplate``.
+/// Computes the slot geometry for a given ``GridTemplate``.
 ///
-/// Conforming types are injected into ``CollageLayoutViewModel``, enabling
+/// Conforming types are injected into ``GridViewModel``, enabling
 /// the layout engine to be swapped or mocked in tests without touching the VM.
-protocol CollageLayoutProviding {
+protocol GridLayoutProviding {
     /// Returns the ordered list of slots for `template`.
-    func slots(for template: CollageLayoutTemplate) -> [CollageLayoutSlot]
+    func slots(for template: GridTemplate) -> [GridSlot]
     /// Returns the total number of columns in `template`'s grid.
-    func columnCount(for template: CollageLayoutTemplate) -> Int
+    func columnCount(for template: GridTemplate) -> Int
     /// Returns the total number of rows in `template`'s grid.
-    func rowCount(for template: CollageLayoutTemplate) -> Int
+    func rowCount(for template: GridTemplate) -> Int
 }

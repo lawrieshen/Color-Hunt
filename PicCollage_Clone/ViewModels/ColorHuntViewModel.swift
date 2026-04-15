@@ -59,13 +59,13 @@ final class ColorHuntViewModel: ObservableObject {
     // MARK: Computed
 
     /// The best-fit layout template for the number of matched photos available.
-    var suggestedTemplate: CollageLayoutTemplate {
+    var suggestedTemplate: GridTemplate {
         Self.suggestedTemplate(for: rankedPhotos.count)
     }
 
     /// Maps a photo count to the most appropriate layout template.
     /// Extracted as a static function so it can be tested independently.
-    nonisolated static func suggestedTemplate(for photoCount: Int) -> CollageLayoutTemplate {
+    nonisolated static func suggestedTemplate(for photoCount: Int) -> GridTemplate {
         switch photoCount {
         case 0, 1: return .single
         case 2: return .sideBySide
@@ -76,7 +76,7 @@ final class ColorHuntViewModel: ObservableObject {
     }
 
     /// How many slots the suggested template actually holds.
-    private static func slotCount(for template: CollageLayoutTemplate) -> Int {
+    private static func slotCount(for template: GridTemplate) -> Int {
         switch template {
         case .single: return 1
         case .sideBySide: return 2

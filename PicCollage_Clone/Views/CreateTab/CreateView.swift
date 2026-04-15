@@ -5,18 +5,18 @@ import SwiftData
 /// The main collage-editing screen.
 ///
 /// Responsibilities:
-/// - Hosts ``CollageGridView`` driven by ``CollageLayoutViewModel``.
+/// - Hosts ``GridView`` driven by ``GridViewModel``.
 /// - Provides a bulk `PhotosPicker` (toolbar leading) to fill all slots at once.
 /// - Allows per-cell replacement via a sheet-presented `PhotosPicker`.
 /// - Saves the finished collage to SwiftData + Photos library.
-/// - Reacts to `collageToLoad` to restore a saved collage from the Library tab.
+/// - Reacts to `gridToLoad` to restore a saved collage from the Library tab.
 struct CreateView: View {
 
-    @StateObject private var viewModel = CollageLayoutViewModel()
+    @StateObject private var viewModel = GridViewModel()
     @Environment(\.modelContext) private var modelContext
 
     /// Set by ``LibraryView`` when the user taps a saved collage card.
-    @Binding var collageToLoad: SavedCollage?
+    @Binding var gridToLoad: SavedGrid?
 
     /// Drives the parent `TabView` selection so saving can keep the user on Create.
     @Binding var selectedTab: Int
@@ -39,10 +39,10 @@ struct CreateView: View {
                 activePickerIndex = nil
                 cellPickerItem = []
             }
-            .onChange(of: collageToLoad) { _, collage in
+            .onChange(of: gridToLoad) { _, collage in
                 guard let collage else { return }
                 viewModel.load(from: collage)
-                collageToLoad = nil
+                gridToLoad = nil
             }
             .onChange(of: photosToLoad) { _, _ in applyPhotosToLoad() }
     }
@@ -79,7 +79,7 @@ struct CreateView: View {
 
     private var templatePicker: some View {
         Picker("Layout", selection: $viewModel.template) {
-            ForEach(CollageLayoutTemplate.allCases) { template in
+            ForEach(GridTemplate.allCases) { template in
                 Text(template.displayName).tag(template)
             }
         }
@@ -90,7 +90,7 @@ struct CreateView: View {
 
     private var aspectRatioPicker: some View {
         Picker("Aspect Ratio", selection: $viewModel.aspectRatio) {
-            ForEach(CollageAspectRatio.allCases) { ratio in
+            ForEach(GridAspectRatio.allCases) { ratio in
                 Text(ratio.displayName).tag(ratio)
             }
         }
@@ -100,7 +100,7 @@ struct CreateView: View {
     }
 
     private var collageGrid: some View {
-        CollageGridView(viewModel: viewModel) { index in
+        GridView(viewModel: viewModel) { index in
             activePickerIndex = index
         }
     }
@@ -160,14 +160,14 @@ struct CreateView: View {
 
     private func loadPhotos(from items: [PhotosPickerItem], replacing replacingIndex: Int?) {
         Task {
-            var loaded: [CollagePhoto] = []
+            var loaded: [GridPhoto] = []
             for item in items {
                 guard
                     let data = try? await item.loadTransferable(type: Data.self),
                     let uiImage = UIImage(data: data),
                     let jpegData = uiImage.jpegData(compressionQuality: 0.85)
                 else { continue }
-                loaded.append(CollagePhoto(image: Image(uiImage: uiImage), imageData: jpegData))
+                loaded.append(GridPhoto(image: Image(uiImage: uiImage), imageData: jpegData))
             }
             if let index = replacingIndex {
                 if let first = loaded.first {

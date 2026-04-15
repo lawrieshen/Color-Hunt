@@ -4,37 +4,37 @@ import SwiftData
 @testable import PicCollage_Clone
 
 @MainActor
-@Suite("CollageLayoutViewModel")
-struct CollageLayoutViewModelTests {
+@Suite("GridViewModel")
+struct GridViewModelTests {
 
     // MARK: Helpers
 
-    private func makePhoto() -> CollagePhoto {
+    private func makePhoto() -> GridPhoto {
         let data = UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1)).image { ctx in
             UIColor.red.setFill()
             ctx.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
         }.jpegData(compressionQuality: 0.85) ?? Data()
-        return CollagePhoto(image: Image(systemName: "photo"), imageData: data)
+        return GridPhoto(image: Image(systemName: "photo"), imageData: data)
     }
 
     // MARK: update(photos:)
 
     @Test func updatePhotos_storesPhotos() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         let photos = [makePhoto(), makePhoto()]
         vm.update(photos: photos)
         #expect(vm.photos.count == 2)
     }
 
     @Test func updatePhotos_recomputesCells() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         vm.update(photos: [makePhoto()])
         // MockEngine returns 1 slot, so cells always has 1 entry
         #expect(vm.cells.count == 1)
     }
 
     @Test func updatePhotos_emptyArray_leavesAllCellsWithNilPhoto() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         vm.update(photos: [])
         #expect(vm.cells.allSatisfy { $0.photo == nil })
     }
@@ -42,13 +42,13 @@ struct CollageLayoutViewModelTests {
     // MARK: update(template:)
 
     @Test func updateTemplate_changesTemplateProperty() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         vm.update(template: .twoByTwo)
         #expect(vm.template == .twoByTwo)
     }
 
     @Test func columnAndRowCount_delegateToEngine() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         // MockEngine always returns 1 for both
         #expect(vm.columnCount == 1)
         #expect(vm.rowCount == 1)
@@ -57,7 +57,7 @@ struct CollageLayoutViewModelTests {
     // MARK: replacePhoto(at:with:)
 
     @Test func replacePhoto_inBounds_replacesCorrectElement() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         let original = makePhoto()
         let replacement = makePhoto()
         vm.update(photos: [original])
@@ -66,7 +66,7 @@ struct CollageLayoutViewModelTests {
     }
 
     @Test func replacePhoto_negativeIndex_isIgnored() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         let photo = makePhoto()
         vm.update(photos: [photo])
         vm.replacePhoto(at: -1, with: makePhoto())
@@ -75,7 +75,7 @@ struct CollageLayoutViewModelTests {
     }
 
     @Test func replacePhoto_outOfBoundsIndex_growsArray() {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
         let original = makePhoto()
         let extra = makePhoto()
         vm.update(photos: [original])
@@ -90,9 +90,9 @@ struct CollageLayoutViewModelTests {
     @Test func load_restoresTemplateAndAspectRatio() throws {
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
 
-        let collage = SavedCollage(
+        let collage = SavedGrid(
             template: .twoByTwo,
             aspectRatio: .landscape,
             photoData: [makePhoto().imageData],
@@ -109,9 +109,9 @@ struct CollageLayoutViewModelTests {
     @Test func load_invalidRawValues_fallBackToDefaults() throws {
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
 
-        let collage = SavedCollage(
+        let collage = SavedGrid(
             template: .single,
             aspectRatio: .square,
             photoData: [],
@@ -130,9 +130,9 @@ struct CollageLayoutViewModelTests {
     @Test func load_skipsInvalidPhotoData() throws {
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer())
 
-        let collage = SavedCollage(
+        let collage = SavedGrid(
             template: .single,
             aspectRatio: .square,
             photoData: [Data(), Data()], // invalid JPEG bytes — compactMap drops them
@@ -148,17 +148,17 @@ struct CollageLayoutViewModelTests {
     // MARK: save(gridView:context:)
 
     @Test func save_rendererFailure_throwsRenderFailed() async throws {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer(shouldFail: true))
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer(shouldFail: true))
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
 
-        await #expect(throws: CollageRenderError.renderFailed) {
+        await #expect(throws: GridRenderError.renderFailed) {
             try await vm.save(gridView: EmptyView(), context: context)
         }
     }
 
     @Test func save_isSavingReturnsFalseAfterRendererFailure() async throws {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: MockRenderer(shouldFail: true))
+        let vm = GridViewModel(engine: MockEngine(), renderer: MockRenderer(shouldFail: true))
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
 
@@ -168,7 +168,7 @@ struct CollageLayoutViewModelTests {
     }
 
     @Test func save_insertsCollageIntoContext() async throws {
-        let vm = CollageLayoutViewModel(engine: MockEngine(), renderer: SolidImageRenderer())
+        let vm = GridViewModel(engine: MockEngine(), renderer: SolidImageRenderer())
         let container = try makeInMemoryContainer()
         let context = ModelContext(container)
         vm.update(photos: [makePhoto()])
@@ -176,7 +176,7 @@ struct CollageLayoutViewModelTests {
         // PHPhotoLibrary throws in a test environment — suppress it and check the insert
         try? await vm.save(gridView: EmptyView(), context: context)
 
-        let collages = try context.fetch(FetchDescriptor<SavedCollage>())
+        let collages = try context.fetch(FetchDescriptor<SavedGrid>())
         #expect(collages.count == 1)
     }
 }
@@ -185,7 +185,7 @@ struct CollageLayoutViewModelTests {
 
 /// Renderer that returns a 1×1 red image without touching SwiftUI layout.
 /// Used in tests that need a non-nil UIImage with valid JPEG data.
-private struct SolidImageRenderer: CollageRendering {
+private struct SolidImageRenderer: GridRendering {
     @MainActor
     func render<V: View>(_ view: V, size: CGSize) async throws -> UIImage {
         UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1)).image { ctx in

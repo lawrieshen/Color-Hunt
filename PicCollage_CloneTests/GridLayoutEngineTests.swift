@@ -1,10 +1,10 @@
 import Testing
 @testable import PicCollage_Clone
 
-@Suite("CollageLayoutEngine")
-struct CollageLayoutEngineTests {
+@Suite("GridLayoutEngine")
+struct GridLayoutEngineTests {
 
-    private let engine = CollageLayoutEngine()
+    private let engine = GridLayoutEngine()
 
     // MARK: Slot counts
 
@@ -58,7 +58,7 @@ struct CollageLayoutEngineTests {
     }
 
     @Test func allTemplates_slotIdsAreSequential() {
-        for template in CollageLayoutTemplate.allCases {
+        for template in GridTemplate.allCases {
             let slots = engine.slots(for: template)
             #expect(slots.map(\.id) == Array(0..<slots.count))
         }

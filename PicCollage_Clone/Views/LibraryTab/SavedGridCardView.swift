@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// A thumbnail card representing one ``SavedCollage`` in the Library grid.
+/// A thumbnail card representing one ``SavedGrid`` in the Library grid.
 ///
 /// Displays the flattened thumbnail JPEG and a formatted date below it.
 /// Uses `@ViewBuilder` to gracefully fall back to a placeholder when the
 /// thumbnail data cannot be decoded.
-struct SavedCollageCardView: View {
+struct SavedGridCardView: View {
 
-    let collage: SavedCollage
+    let collage: SavedGrid
 
     /// Called when the user taps the card.
     let onTap: () -> Void
@@ -27,7 +27,7 @@ struct SavedCollageCardView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture { onTap() }
-        .accessibilityIdentifier("collageCard")
+        .accessibilityIdentifier("gridCard")
     }
 
     /// Decoded thumbnail image, or a grey placeholder if decoding fails.

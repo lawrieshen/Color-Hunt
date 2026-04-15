@@ -1,11 +1,11 @@
 import SwiftUI
 
-/// A single photo slot in an in-memory collage session.
+/// A single photo slot in an in-memory grid session.
 ///
-/// `CollagePhoto` is a pure value type used only while the user is editing.
+/// `GridPhoto` is a pure value type used only while the user is editing.
 /// It is never persisted directly; call ``imageData`` to obtain the JPEG
-/// bytes that are written to ``SavedCollage`` on save.
-struct CollagePhoto: Identifiable, Equatable {
+/// bytes that are written to ``SavedGrid`` on save.
+struct GridPhoto: Identifiable, Equatable {
 
     /// Stable identifier used to diff cells in the ViewModel.
     let id: UUID
@@ -13,10 +13,10 @@ struct CollagePhoto: Identifiable, Equatable {
     /// SwiftUI image ready for display.
     let image: Image
 
-    /// JPEG-encoded backing bytes. Written to ``SavedCollage/photoData`` when saving.
+    /// JPEG-encoded backing bytes. Written to ``SavedGrid/photoData`` when saving.
     let imageData: Data
 
-    /// Creates a `CollagePhoto` from a decoded image and its raw JPEG data.
+    /// Creates a `GridPhoto` from a decoded image and its raw JPEG data.
     /// - Parameters:
     ///   - id: Stable identifier; defaults to a new `UUID`.
     ///   - image: SwiftUI `Image` for display.
@@ -27,7 +27,7 @@ struct CollagePhoto: Identifiable, Equatable {
         self.imageData = imageData
     }
 
-    static func == (lhs: CollagePhoto, rhs: CollagePhoto) -> Bool {
+    static func == (lhs: GridPhoto, rhs: GridPhoto) -> Bool {
         lhs.id == rhs.id
     }
 }

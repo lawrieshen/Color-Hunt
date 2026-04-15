@@ -3,17 +3,17 @@ import SwiftData
 
 /// Displays all saved collages in a reverse-chronological adaptive grid.
 ///
-/// Tapping a card sets `collageToLoad` and switches the tab to Create so the
+/// Tapping a card sets `gridToLoad` and switches the tab to Create so the
 /// user can continue editing. Swipe-to-delete removes the record from SwiftData.
 struct LibraryView: View {
 
-    @Query(sort: \SavedCollage.createdAt, order: .reverse)
-    private var collages: [SavedCollage]
+    @Query(sort: \SavedGrid.createdAt, order: .reverse)
+    private var collages: [SavedGrid]
 
     @Environment(\.modelContext) private var modelContext
 
     /// Written when the user taps a card; read by ``CreateView`` to load the collage.
-    @Binding var collageToLoad: SavedCollage?
+    @Binding var gridToLoad: SavedGrid?
 
     /// Controls which tab is shown in the parent `TabView`.
     @Binding var selectedTab: Int
@@ -37,7 +37,7 @@ struct LibraryView: View {
 
     private var emptyState: some View {
         ContentUnavailableView(
-            "No Collages Yet",
+            "No Grids Yet",
             systemImage: "photo.stack",
             description: Text("Save a collage from the Create tab to see it here.")
         )
@@ -48,8 +48,8 @@ struct LibraryView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(collages) { collage in
-                    SavedCollageCardView(collage: collage) {
-                        collageToLoad = collage
+                    SavedGridCardView(collage: collage) {
+                        gridToLoad = collage
                         selectedTab = 0
                     }
                     .swipeActions(edge: .trailing) {

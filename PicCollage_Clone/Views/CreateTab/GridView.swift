@@ -1,15 +1,15 @@
 import SwiftUI
 
-/// Responsive grid that arranges ``CollageCellView`` instances for the active template.
+/// Responsive grid that arranges ``GridCellView`` instances for the active template.
 ///
 /// `GeometryReader` derives cell dimensions from the available width so the
 /// layout scales correctly on every iPhone and iPad screen size.
-/// Cells are grouped into rows by their ``CollageLayoutSlot/row`` value so that
+/// Cells are grouped into rows by their ``GridSlot/row`` value so that
 /// spanning cells (e.g. the bottom slot in `.topPairBottomSingle`) get the
 /// correct width automatically.
-struct CollageGridView: View {
+struct GridView: View {
 
-    @ObservedObject var viewModel: CollageLayoutViewModel
+    @ObservedObject var viewModel: GridViewModel
 
     /// Gap between cells in points.
     var spacing: CGFloat = 0
@@ -30,7 +30,7 @@ struct CollageGridView: View {
                         // Derived from: cellW/cellH = (span/cols × W) / (1/rows × W/r)
                         let cellAR = CGFloat(item.slot.columnSpan) * r
                                    * CGFloat(rows) / CGFloat(cols)
-                        CollageCellView(
+                        GridCellView(
                             photo: item.photo,
                             index: item.slot.id,
                             onTap: onTap
@@ -46,8 +46,8 @@ struct CollageGridView: View {
 
     /// Groups the flat cells array into row buckets, sorted by row index.
     private func groupedRows(
-        from cells: [(slot: CollageLayoutSlot, photo: CollagePhoto?)]
-    ) -> [[(slot: CollageLayoutSlot, photo: CollagePhoto?)]] {
+        from cells: [(slot: GridSlot, photo: GridPhoto?)]
+    ) -> [[(slot: GridSlot, photo: GridPhoto?)]] {
         let grouped = Dictionary(grouping: cells, by: { $0.slot.row })
         return grouped.keys.sorted().map { grouped[$0]! }
     }

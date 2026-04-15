@@ -398,8 +398,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "PicCollage saves your finished collages to your photo library.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "PicCollage needs access to your photos to create collages.\n";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "ColorHunt saves your finished grids to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ColorHunt needs access to your photos to hunt colors.\n";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -444,8 +444,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "PicCollage saves your finished collages to your photo library.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "PicCollage needs access to your photos to create collages.\n";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "ColorHunt saves your finished grids to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ColorHunt needs access to your photos to hunt colors.\n";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

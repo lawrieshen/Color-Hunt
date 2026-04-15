@@ -4,7 +4,7 @@ import UIKit
 /// A photo candidate produced by ``ColorHuntViewModel``.
 ///
 /// Holds everything needed to display the photo in the grid and to
-/// convert it to a ``CollagePhoto`` when handing off to the Create tab.
+/// convert it to a ``GridPhoto`` when handing off to the Create tab.
 struct ColorHuntPhoto: Identifiable, Equatable {
 
     static func == (lhs: ColorHuntPhoto, rhs: ColorHuntPhoto) -> Bool {
@@ -18,7 +18,7 @@ struct ColorHuntPhoto: Identifiable, Equatable {
     /// SwiftUI image for display in the collage grid.
     let image: Image
 
-    /// JPEG-encoded backing bytes for ``CollagePhoto`` handoff.
+    /// JPEG-encoded backing bytes for ``GridPhoto`` handoff.
     let imageData: Data
 
     /// The dominant color of this photo, determined by k-means clustering in ``ColorAnalysisEngine``.
@@ -27,8 +27,8 @@ struct ColorHuntPhoto: Identifiable, Equatable {
     /// Euclidean RGB distance to the user's target color. Lower = closer match.
     let colorDistance: CGFloat
 
-    /// Converts this candidate into a ``CollagePhoto`` for the Create tab.
-    func asCollagePhoto() -> CollagePhoto {
-        CollagePhoto(image: image, imageData: imageData)
+    /// Converts this candidate into a ``GridPhoto`` for the Create tab.
+    func asGridPhoto() -> GridPhoto {
+        GridPhoto(image: image, imageData: imageData)
     }
 }

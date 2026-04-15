@@ -1,11 +1,14 @@
-# PicCollage Clone
+# ColorHunt
 
-A SwiftUI iOS app that recreates core features of PicCollage — photo collage creation and color-driven photo discovery.
+A SwiftUI iOS app that finds photos in your library matching a color you choose — then arranges the best matches into a collage.
 
 ## Features
 
+### Color Hunt
+Pick any target color. The app scans your photo library (last 30 days), ranks photos by color similarity using hardware-accelerated analysis, and automatically selects the best-fit collage layout.
+
 ### Create
-Pick photos from your library, choose a layout template, and arrange them into a collage. Finished collages can be saved to your photo library.
+Choose a layout template and arrange color-matched photos into a collage. Finished collages can be saved to your photo library.
 
 **Layout templates**
 | Template | Slots |
@@ -16,25 +19,22 @@ Pick photos from your library, choose a layout template, and arrange them into a
 | 2 × 2 | 4 |
 | 3 × 3 | 9 |
 
-### Color Hunt
-Choose a target color and the app scans your photo library (last 30 days), ranks photos by color similarity, and pre-fills the best-fit collage template automatically.
-
 ### Library
 Browse and revisit collages you've saved within the app.
 
 ## Architecture
 
 ```
-PicCollage_Clone/
+ColorHunt/
 ├── App/               # Entry point, root ContentView
-├── Engine/            # CollageLayoutEngine, CollageRenderer, ColorAnalysisEngine
-├── Models/            # CollagePhoto, ColorHuntPhoto, SavedCollage, PhotosLoadRequest
-├── Protocols/         # CollageLayoutProviding, CollageRendering, ColorHuntProviding
-├── ViewModels/        # CollageLayoutViewModel, ColorHuntViewModel
+├── Engine/            # GridLayoutEngine, GridRenderer, ColorAnalysisEngine
+├── Models/            # GridPhoto, ColorHuntPhoto, SavedGrid
+├── Protocols/         # GridLayoutProviding, GridRendering, ColorHuntProviding
+├── ViewModels/        # GridViewModel, ColorHuntViewModel
 └── Views/
-    ├── CreateTab/     # CreateView, CollageGridView, CollageCellView
+    ├── CreateTab/     # GridView, GridCellView
     ├── ColorHuntTab/  # ColorHuntView
-    └── LibraryTab/    # LibraryView, SavedCollageCardView
+    └── LibraryTab/    # LibraryView, SavedGridCardView
 ```
 
 **Key design decisions**
@@ -54,7 +54,7 @@ PicCollage_Clone/
 2. Select a simulator or a connected device.
 3. Build and run (`⌘R`).
 
-Photo library access is required for both the Create and Color Hunt tabs. The app will prompt for permission on first launch.
+Photo library access is required for the Color Hunt and Create tabs. The app will prompt for permission on first launch.
 
 ## Tests
 
@@ -73,8 +73,8 @@ xcodebuild test \
 |---|---|
 | `ColorAnalysisEngineTests` | Dominant color extraction |
 | `ColorHuntViewModelTests` | Template selection logic |
-| `CollageLayoutEngineTests` | Slot geometry per template |
-| `CollageLayoutViewModelTests` | ViewModel state transitions |
+| `GridLayoutEngineTests` | Slot geometry per template |
+| `GridViewModelTests` | ViewModel state transitions |
 | `UIColorDistanceTests` | Color distance metric |
 
 ## Licenses

@@ -10,7 +10,7 @@ struct ColorHuntView: View {
     @Binding var photosToLoad: PhotosLoadRequest?
 
     @StateObject private var viewModel = ColorHuntViewModel()
-    @StateObject private var gridViewModel = CollageLayoutViewModel()
+    @StateObject private var gridViewModel = GridViewModel()
 
     var body: some View {
         NavigationStack {
@@ -27,7 +27,7 @@ struct ColorHuntView: View {
                 } else if viewModel.rankedPhotos.isEmpty {
                     emptyState
                 } else {
-                    CollageGridView(viewModel: gridViewModel) { _ in }
+                    GridView(viewModel: gridViewModel) { _ in }
                         .padding(.horizontal)
                     sendToCreateButton
                     Spacer()
@@ -84,7 +84,7 @@ struct ColorHuntView: View {
     private var sendToCreateButton: some View {
         Button {
             photosToLoad = PhotosLoadRequest(
-                photos: viewModel.topPhotos.map { $0.asCollagePhoto() },
+                photos: viewModel.topPhotos.map { $0.asGridPhoto() },
                 template: viewModel.suggestedTemplate
             )
             selectedTab = 0
@@ -100,7 +100,7 @@ struct ColorHuntView: View {
     // MARK: Helpers
 
     private func updateGrid(with photos: [ColorHuntPhoto]) {
-        let collagePhotos = viewModel.topPhotos.map { $0.asCollagePhoto() }
+        let collagePhotos = viewModel.topPhotos.map { $0.asGridPhoto() }
         gridViewModel.update(photos: collagePhotos)
         gridViewModel.update(template: viewModel.suggestedTemplate)
     }

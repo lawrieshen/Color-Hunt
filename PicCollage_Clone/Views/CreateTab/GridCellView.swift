@@ -4,10 +4,10 @@ import SwiftUI
 ///
 /// Uses `@ViewBuilder` to branch between a filled photo and a grey placeholder,
 /// keeping each state self-contained and easy to style independently.
-struct CollageCellView: View {
+struct GridCellView: View {
 
     /// The photo to display, or `nil` to show the placeholder.
-    let photo: CollagePhoto?
+    let photo: GridPhoto?
 
     /// Zero-based index of this cell within the grid. Forwarded to `onTap`.
     let index: Int
@@ -26,12 +26,12 @@ struct CollageCellView: View {
         .clipped()                          // clip after the frame is set by the parent
         .contentShape(Rectangle())
         .onTapGesture { onTap(index) }
-        .accessibilityIdentifier("collageCell_\(index)")
+        .accessibilityIdentifier("gridCell_\(index)")
     }
 
     /// Displays the user's photo, filling the cell and clipping overflow.
     @ViewBuilder
-    private func photoView(_ photo: CollagePhoto) -> some View {
+    private func photoView(_ photo: GridPhoto) -> some View {
         Color.clear
             .overlay(
                 photo.image
