@@ -1,6 +1,58 @@
 # ColorHunt
 
 A SwiftUI iOS app that finds photos in your library matching a color you choose — then arranges the best matches into a collage.
+<div align="center">
+    
+<table style="width: 50%; height: 50%; border-collapse: collapse; border: none;">
+  <tr style="border: none;">
+    <td width="50%" align="center" style="border: none; vertical-align: middle;">
+      <video src="https://github.com/user-attachments/assets/1ba6eb9e-3133-4af4-92c2-ab0d87f70008" width="100%">
+      <br><em>Layout</em>
+    </td>
+    <td width="50%" align="center" style="border: none; vertical-align: middle;">
+      <video src="https://github.com/user-attachments/assets/b0543777-9280-4b94-855c-f21b2c33c7b4" width="100%"></video>
+      <br><em>Color Hunt</em>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+## Inspiration and Technical Background
+
+This project is inspired by **PicCollage's** feature to layout photos and Apple's official documentation on **[Calculating the Dominant Colors in an Image](https://developer.apple.com/documentation/Accelerate/calculating-the-dominant-colors-in-an-image)**.
+To determine the most prominent colors in a photo, the app implements **k-means clustering** using the **Accelerate framework**. This allows for high-performance pixel processing and vector calculations, ensuring that color matching is both fast and accurate even with large photo libraries.
+
+<table style="width: 100%; border-collapse: collapse; border: none;">
+  <tr style="border: none;">
+    <td width="25%" align="center" style="border: none; vertical-align: middle;">
+      <img src="https://github.com/user-attachments/assets/9a3d4264-093a-47d5-94b1-394a28f8f4f4" width="100%" alt="Dominant Color Analysis">
+      <br><em></em>
+    </td>
+    <td width="75%" align="center" style="border: none; vertical-align: middle;">
+      <video src="https://github.com/user-attachments/assets/1823606e-1485-4f19-a1cf-4759686c135d" width="100%" controls title="App Demo"></video>
+      <br><em>Apple's demo</em>
+    </td>
+  </tr>
+</table>
+
+### The Math behind the Color Matching
+
+The app treats each image as a collection of data points in a 3D coordinate system (RGB). To find the dominant colors, we minimize the squared Euclidean distance between pixels and their cluster centroids:
+
+<div align="center">
+    
+$`J = \sum_{j=1}^{k} \sum_{x \in S_j} \|x - \mu_j\|^2`$
+
+</div>
+
+Where:
+- $`k`$: The number of dominant colors you want to find.
+- $`S_j`$: The set of pixels assigned to cluster $`j`$.
+- $`x`$: The RGB color vector of a specific pixel.
+- $`\mu_j`$: The centroid (mean color) of cluster $`j`$.
+
+Using the **Accelerate framework**, we perform these vector subtractions and summations in parallel, allowing the app to analyze your photo library in real-time.
 
 ## Features
 
@@ -21,12 +73,6 @@ Choose a layout template and arrange color-matched photos into a collage. Finish
 
 ### Library
 Browse and revisit collages you've saved within the app.
-
-## Demo
-
-https://github.com/user-attachments/assets/1ba6eb9e-3133-4af4-92c2-ab0d87f70008
-
-https://github.com/user-attachments/assets/b0543777-9280-4b94-855c-f21b2c33c7b4
 
 ## Architecture
 
