@@ -22,6 +22,12 @@ Choose a layout template and arrange color-matched photos into a collage. Finish
 ### Library
 Browse and revisit collages you've saved within the app.
 
+## Demo
+
+https://github.com/user-attachments/assets/1ba6eb9e-3133-4af4-92c2-ab0d87f70008
+
+https://github.com/user-attachments/assets/b0543777-9280-4b94-855c-f21b2c33c7b4
+
 ## Architecture
 
 ```
