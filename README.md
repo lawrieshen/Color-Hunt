@@ -7,11 +7,9 @@ A SwiftUI iOS app that finds photos in your library matching a color you choose 
   <tr style="border: none;">
     <td width="50%" align="center" style="border: none; vertical-align: middle;">
       <video src="https://github.com/user-attachments/assets/1ba6eb9e-3133-4af4-92c2-ab0d87f70008" width="100%">
-      <br><em>Layout</em>
     </td>
     <td width="50%" align="center" style="border: none; vertical-align: middle;">
       <video src="https://github.com/user-attachments/assets/b0543777-9280-4b94-855c-f21b2c33c7b4" width="100%"></video>
-      <br><em>Color Hunt</em>
     </td>
   </tr>
 </table>
@@ -35,6 +33,23 @@ To determine the most prominent colors in a photo, the app implements **k-means 
     </td>
   </tr>
 </table>
+
+### What is Color Hunt?
+
+The Color Hunt is a viral visual scavenger hunt and social media trend where participants explore their environment to document objects of a specific hue. By curating these findings into aesthetic photo grids, users share them on their Instagram Stories to either express their mood or do this trend with their friends to create core memories.
+
+<div align="center">
+
+<table>
+  <tr>
+    <td><img width="168" height="299" alt="image" src="https://github.com/user-attachments/assets/ab481be2-e832-4647-8872-fab2b42487b8" /></td>
+    <td><img width="188" height="269" alt="image" src="https://github.com/user-attachments/assets/8bd950e6-0cd8-4886-ab19-dac815ec7eb5" /></td>
+    <td><img width="168" height="299" alt="image" src="https://github.com/user-attachments/assets/74afb86e-28f5-4095-96cc-4d41e5a9d349" /></td>
+    <td><img width="187" height="269" alt="image" src="https://github.com/user-attachments/assets/e115ea87-a680-4fc2-93a7-96ec43376ca7" /></td>
+  </tr>
+</table>
+
+</div>
 
 ### The Math behind the Color Matching
 
