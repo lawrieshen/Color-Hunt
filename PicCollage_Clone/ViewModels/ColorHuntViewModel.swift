@@ -95,6 +95,10 @@ final class ColorHuntViewModel: ObservableObject {
 
     /// Requests photo library access, fetches the past 30 days, analyses dominant
     /// colors concurrently, and updates ``rankedPhotos``.
+    /// 
+    /// Pipeline: Authorization to access photo albums -> Fetch assets from the last 30 days -> Run ColorAnalsis Engine -> Sort the result based on color distance
+    
+    // TODO: Remove hard-coded 30 days and make it configurable (e.g. via parameter or user setting)
     func analyze() async {
         isAnalyzing = true
         defer { isAnalyzing = false }
