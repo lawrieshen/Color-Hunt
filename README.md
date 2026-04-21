@@ -18,7 +18,7 @@ A SwiftUI iOS app that finds photos in your library matching a color you choose 
 
 ## Inspiration and Technical Background
 
-This project is inspired by **PicCollage's** feature to layout photos and Apple's official documentation on **[Calculating the Dominant Colors in an Image](https://developer.apple.com/documentation/Accelerate/calculating-the-dominant-colors-in-an-image)**.
+This project is inspired by **PicCollage's** feature to arrange photos to create collage and Apple's official documentation on **[Calculating the Dominant Colors in an Image](https://developer.apple.com/documentation/Accelerate/calculating-the-dominant-colors-in-an-image)**.
 To determine the most prominent colors in a photo, the app implements **k-means clustering** using the **Accelerate framework**. This allows for high-performance pixel processing and vector calculations, ensuring that color matching is both fast and accurate even with large photo libraries.
 
 <table style="width: 100%; border-collapse: collapse; border: none;">
